@@ -1,0 +1,750 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #21262d;
+  --border: #30363d;
+  --accent: #0ea5e9;
+  --accent-dim: #0284c7;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --danger: #f85149;
+  --success: #3fb950;
+  --warning: #d29922;
+  --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --radius: 8px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── Login ─────────────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 0%, #0c2a3a 0%, var(--bg) 70%);
+}
+
+.login-card {
+  width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+}
+
+.login-logo { text-align: center; margin-bottom: 32px; }
+.login-logo .logo-mark {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  border-radius: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 26px; margin-bottom: 12px;
+}
+.login-logo h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.login-logo p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text-muted); }
+.form-group input {
+  width: 100%; padding: 10px 14px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text); font-size: 14px;
+  outline: none; transition: border-color 0.15s;
+}
+.form-group input:focus { border-color: var(--accent); }
+
+.btn-primary {
+  width: 100%; padding: 11px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  margin-top: 8px; transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--accent-dim); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.login-error {
+  background: rgba(248,81,73,0.12); border: 1px solid rgba(248,81,73,0.3);
+  border-radius: var(--radius); color: var(--danger);
+  padding: 10px 14px; font-size: 13px; margin-bottom: 16px;
+}
+
+.login-hints { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 20px; }
+.login-hints p { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+.login-hints code {
+  background: var(--surface2); border-radius: 4px;
+  padding: 2px 6px; font-size: 11px; color: var(--accent);
+}
+
+/* ── App shell ──────────────────────────────────────────── */
+.app-header {
+  height: 56px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+  position: sticky; top: 0; z-index: 100;
+}
+.app-header .logo { font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: -0.3px; }
+.app-header .spacer { flex: 1; }
+.app-header .user-name { font-size: 13px; color: var(--text-muted); }
+
+.user-role {
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.role-doctor  { background: rgba(14,165,233,0.15); color: var(--accent); }
+.role-patient { background: rgba(63,185,80,0.15);  color: var(--success); }
+.role-admin   { background: rgba(210,153,34,0.15); color: var(--warning); }
+
+.btn-logout {
+  padding: 6px 14px; background: transparent;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-muted); font-size: 13px; cursor: pointer; transition: all 0.15s;
+}
+.btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+.account-switcher {
+  padding: 5px 10px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-muted); font-size: 12px; cursor: pointer;
+  max-width: 220px; text-overflow: ellipsis;
+}
+.account-switcher:hover { border-color: var(--accent); color: var(--text); }
+
+/* ── Case list ──────────────────────────────────────────── */
+.cases-page { padding: 32px 24px; max-width: 1100px; margin: 0 auto; }
+.cases-page h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.cases-page .subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 28px; }
+
+.contact-banner {
+  display: flex; align-items: center; gap: 16px;
+  background: linear-gradient(135deg, #0a2e1a 0%, #0d1f12 100%);
+  border: 1px solid #25d36644;
+  border-radius: 14px;
+  padding: 18px 24px;
+  margin-bottom: 28px;
+  text-decoration: none; color: inherit;
+  box-shadow: 0 0 32px #25d36622, 0 2px 8px #00000040;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+.contact-banner:hover {
+  border-color: #25d36699;
+  box-shadow: 0 0 48px #25d36644, 0 4px 16px #00000060;
+  transform: translateY(-1px);
+}
+.contact-banner-icon {
+  color: #25d366; flex-shrink: 0;
+  filter: drop-shadow(0 0 8px #25d36688);
+}
+.contact-banner-text {
+  display: flex; flex-direction: column; gap: 2px; flex: 1;
+}
+.contact-banner-label {
+  font-size: 12px; color: #25d36699; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600;
+}
+.contact-banner-number {
+  font-size: 22px; font-weight: 700; color: #e6edf3; letter-spacing: 0.5px;
+}
+.contact-banner-cta {
+  font-size: 13px; font-weight: 600; color: #25d366;
+  white-space: nowrap; padding: 8px 16px;
+  border: 1px solid #25d36666; border-radius: 8px;
+  transition: background 0.15s;
+}
+.contact-banner:hover .contact-banner-cta { background: #25d36618; }
+
+/* ── Vista chooser (Home) ───────────────────────────────── */
+.home-page { padding: 48px 24px; max-width: 900px; margin: 0 auto; text-align: center; }
+.home-page h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.home-page .subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 36px; }
+
+.vista-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px; text-align: left;
+}
+
+.vista-card {
+  display: flex; flex-direction: column; gap: 10px;
+  border-radius: 16px; padding: 28px;
+  text-decoration: none; color: inherit; cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+}
+.vista-card:hover { transform: translateY(-2px); }
+
+.vista-card-icon { display: flex; }
+.vista-card-label { font-size: 19px; font-weight: 700; color: #e6edf3; letter-spacing: 0.2px; }
+.vista-card-desc { font-size: 13px; color: var(--text-muted); flex: 1; }
+.vista-card-cta {
+  align-self: flex-start; font-size: 13px; font-weight: 600;
+  padding: 8px 16px; border-radius: 8px; margin-top: 4px;
+  transition: background 0.15s;
+}
+
+.vista-card-doctor {
+  background: linear-gradient(135deg, #0a1f3a 0%, #0d1626 100%);
+  border: 1px solid #38bdf844;
+  box-shadow: 0 0 32px #38bdf822, 0 2px 8px #00000040;
+}
+.vista-card-doctor:hover { border-color: #38bdf899; box-shadow: 0 0 48px #38bdf844, 0 4px 16px #00000060; }
+.vista-card-doctor .vista-card-icon { color: #38bdf8; filter: drop-shadow(0 0 8px #38bdf888); }
+.vista-card-doctor .vista-card-cta { color: #38bdf8; border: 1px solid #38bdf866; }
+.vista-card-doctor:hover .vista-card-cta { background: #38bdf818; }
+
+.vista-card-patient {
+  background: linear-gradient(135deg, #0a2e1a 0%, #0d1f12 100%);
+  border: 1px solid #3fb95044;
+  box-shadow: 0 0 32px #3fb95022, 0 2px 8px #00000040;
+}
+.vista-card-patient:hover { border-color: #3fb95099; box-shadow: 0 0 48px #3fb95044, 0 4px 16px #00000060; }
+.vista-card-patient .vista-card-icon { color: var(--success); filter: drop-shadow(0 0 8px #3fb95088); }
+.vista-card-patient .vista-card-cta { color: var(--success); border: 1px solid #3fb95066; }
+.vista-card-patient:hover .vista-card-cta { background: #3fb95018; }
+
+.cases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+.case-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+  text-decoration: none; display: block; color: inherit;
+}
+.case-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+.case-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.patient-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; color: #fff; flex-shrink: 0;
+}
+.case-card-header .pname { font-size: 15px; font-weight: 600; }
+.case-card-header .pdob  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+.case-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.meta-item label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
+.meta-item span  { font-size: 13px; font-weight: 500; }
+
+.case-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.case-study { font-size: 12px; color: var(--text-muted); }
+
+.badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.4px; }
+.badge-new      { background: rgba(14,165,233,0.15); color: var(--accent); }
+.badge-reviewed { background: rgba(139,148,158,0.15); color: var(--text-muted); }
+
+/* ── Viewer ─────────────────────────────────────────────── */
+.viewer-page { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.viewer-toolbar {
+  height: 48px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 16px; gap: 8px; flex-shrink: 0;
+}
+
+.btn-back {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; background: transparent;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-muted); font-size: 13px; cursor: pointer;
+  transition: all 0.15s; text-decoration: none;
+}
+.btn-back:hover { border-color: var(--text); color: var(--text); }
+
+.viewer-toolbar .vt-title { font-size: 13px; font-weight: 600; }
+.viewer-toolbar .vt-meta  { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+.viewer-toolbar .spacer   { flex: 1; }
+
+.btn-remote {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; background: rgba(14,165,233,0.12);
+  border: 1px solid var(--accent); border-radius: var(--radius);
+  color: var(--accent); font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: all 0.15s; text-decoration: none;
+}
+.btn-remote:hover { background: var(--accent); color: #fff; }
+
+.tool-btn {
+  padding: 6px 12px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-muted); font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s;
+}
+.tool-btn:hover  { border-color: var(--accent); color: var(--accent); }
+.tool-btn.active { background: rgba(14,165,233,0.15); border-color: var(--accent); color: var(--accent); }
+
+.toolbar-divider {
+  width: 1px; height: 24px; background: var(--border); margin: 0 6px;
+}
+
+.threshold-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-muted); font-weight: 500;
+  white-space: nowrap;
+}
+.threshold-slider {
+  width: 100px; cursor: pointer;
+  accent-color: var(--accent);
+}
+.threshold-value {
+  font-size: 11px; color: var(--text); font-variant-numeric: tabular-nums;
+  min-width: 36px; text-align: right;
+}
+
+/* All 4 MPR/3D panels are always direct children of this one stable element
+   (see panelInset()/renderPanel() in CornerstoneViewer.jsx) — every room and
+   mode (nested split, resizable row, equal-share row, focused single) is
+   expressed as a per-panel percentage inset (position: absolute) computed in
+   JS, never as a different DOM nesting. Cornerstone attaches its WebGL
+   canvas directly to a panel's .viewport-element div; if that div were ever
+   unmounted (e.g. by switching between differently-shaped conditional JSX
+   trees), the canvas would be orphaned and the panel would go permanently
+   black — that was the bug behind panels going black on room-switch/resize.
+*/
+.viewer-grid {
+  flex: 1; position: relative; background: #000; overflow: hidden;
+}
+
+/* Drag handles for resizing the grid — thin invisible hit-strips straddling
+   the gap between columns/rows. Dragging one to an edge collapses the
+   panel(s) it carries (see onColDividerDown / onRowDividerDown) rather than
+   just clamping, so resize doubles as a way to make panels disappear
+   without touching the close button. */
+.grid-divider { position: absolute; z-index: 16; }
+.grid-divider-v { top: 0; bottom: 0; width: 10px; margin-left: -5px; cursor: col-resize; }
+.grid-divider-h { left: 0; right: 0; height: 10px; margin-top: -5px; cursor: row-resize; }
+.grid-divider:hover, .grid-divider:active { background: rgba(14,165,233,0.25); }
+
+.viewport-panel {
+  position: relative; background: #111; min-height: 0;
+  display: flex; flex-direction: row; min-width: 0;
+}
+/* Positioned ancestor for every overlay (labels, rulers, orientation letters,
+   cursor readout) so they all size against the actual image box, not the
+   whole panel. The slice slider and expand/close controls live outside this,
+   in .viewport-side. */
+.viewport-frame {
+  position: relative; flex: 1; min-height: 0; min-width: 0; display: flex;
+}
+.viewport-label {
+  position: absolute; top: 8px; left: 10px;
+  font-size: 11px; font-weight: 600; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 1px;
+  z-index: 10; pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.viewport-element { width: 100%; flex: 1; display: block; min-height: 0; }
+
+/* i-CAT "Línea" reformat panel — takes over the 3D panel's slot in the
+   Explorador/MPR room (see docs/ICAT_CLONE.md: i-CAT's MPR screen has no 3D
+   panel, its 4th window is the line reformat instead). Opaque, so it fully
+   covers the still-mounted 3D viewport element underneath. */
+.line-panel-overlay {
+  position: absolute; inset: 0; z-index: 12;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+}
+.line-panel-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.line-panel-hint {
+  position: relative; z-index: 1; pointer-events: none;
+  max-width: 70%; text-align: center;
+  font-size: 12px; line-height: 1.5; color: rgba(230,237,243,0.4);
+}
+
+/* mm ruler overlay — passive tick marks along the left/bottom edge of each
+   2D viewport, redrawn in JS on every camera change (see drawRuler). */
+.viewport-ruler {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 8;
+}
+
+/* i-CAT-style slice position + slab thickness strips (drawStrip in
+   CornerstoneViewer.jsx) — one on the right edge (controls whichever OTHER
+   axis draws its position as the vertical crosshair line here), one along
+   the bottom (controls the axis behind the horizontal line). Each strip's
+   axis-colored segment is the position handle (drag to reslice, same effect
+   as dragging that crosshair line); the yellow segment is slab thickness
+   (drag its far end to widen into a MIP). pointer-events: auto — narrow
+   enough not to swallow clicks meant for the image underneath. */
+.slice-strip-v, .slice-strip-h {
+  position: absolute; z-index: 9; cursor: pointer;
+}
+.slice-strip-v { top: 0; right: 0; bottom: 0; }
+.slice-strip-h { left: 0; right: 0; bottom: 0; }
+
+/* Cursor readout — world position + HU under the mouse, updated imperatively
+   (textContent) on mousemove, not through React state. */
+.cursor-readout {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 10px; font-weight: 600; color: rgba(230,237,243,0.85);
+  font-variant-numeric: tabular-nums; letter-spacing: 0.2px;
+  z-index: 10; pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Patient-orientation letters (R/L/A/P/S/I) at the four edges of a 2D viewport. */
+.viewport-orient {
+  position: absolute;
+  font-size: 11px; font-weight: 700; color: rgba(230,237,243,0.7);
+  z-index: 9; pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.orient-top    { top: 6px; left: 50%; transform: translateX(-50%); }
+.orient-bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
+.orient-left   { left: 6px; top: 50%; transform: translateY(-50%); }
+.orient-right  { right: 6px; top: 50%; transform: translateY(-50%); }
+
+/* Locator dot on the 3D panel — projects the MPR crosshair center onto the
+   volume render. Positioned in JS (left/top = worldToCanvas px); centered on
+   that point via the translate. Always on top, never intercepts drags. */
+.crosshair-3d-dot {
+  position: absolute; display: none;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: rgba(40, 220, 255, 0.9);
+  border: 2px solid #fff;
+  box-shadow: 0 0 6px 2px rgba(40, 220, 255, 0.65);
+  transform: translate(-50%, -50%);
+  pointer-events: none; z-index: 12;
+}
+
+.viewport-panel.hidden { display: none; }
+
+.viewer-stage { position: relative; flex: 1; display: flex; min-height: 0; }
+.viewer-main { position: relative; flex: 1; min-width: 0; display: flex; }
+
+/* ── Views: room layouts (Vistas section in the control panel) ──────────
+   Each room repositions the cornerstone grid inside .viewer-main; the
+   panoramic / cross-section panels (LivePanoramic) are absolutely positioned
+   siblings driven by the SAME --pano-split/--implant-pano-w/--implant-cross-w
+   custom properties (set from Viewer.jsx state, dragged via the .pano-divider
+   handles below) — one shared source of truth instead of each file
+   hardcoding its own percentage (see LivePanoramic.css for the full layout
+   diagram — implant is the i-CAT quadrant layout: Panorámica/Axial top row,
+   big cross-section/neighbor-grid bottom row, no 3D panel). */
+.viewer-main.layout-panoramic .viewer-grid { position: absolute; inset: var(--pano-split, 52%) 0 0 0; }
+/* i-CAT "Vista previa": Panorámica docked on top (LivePanoramic, dock-panoramic),
+   Sagital/Coronal/Axial row below — same top-dock pattern as the Panorámica room. */
+.viewer-main.layout-preview .viewer-grid { position: absolute; inset: var(--pano-split, 52%) 0 0 0; }
+/* Axial, top-right (only cornerstone panel this room uses — LAYOUT_PANELS.implant). */
+.viewer-main.layout-implant .viewer-grid {
+  position: absolute;
+  inset: 0 0 calc(100% - var(--pano-split, 40%)) var(--implant-pano-w, 66.7%);
+}
+
+/* Draggable room-split handles (Viewer.jsx onSplitDown) — same thin
+   invisible hit-strip pattern as .grid-divider, just at the room level. */
+.pano-divider { position: absolute; left: 0; right: 0; height: 10px; margin-top: -5px; cursor: row-resize; z-index: 31; }
+.pano-divider-v { left: auto; right: auto; top: 0; bottom: 0; height: auto; width: 10px; margin-top: 0; margin-left: -5px; cursor: col-resize; }
+.pano-divider:hover, .pano-divider:active { background: rgba(14,165,233,0.25); }
+
+/* ── Right-side control panel (Romexis-style accordion) ────────────────── */
+.control-panel {
+  position: relative; flex-shrink: 0; overflow-y: auto; overflow-x: hidden;
+  background: var(--surface); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+}
+.cp-resize-handle {
+  position: absolute; top: 0; bottom: 0; left: -3px; width: 6px;
+  cursor: col-resize; z-index: 20; touch-action: none;
+}
+.cp-resize-handle:hover, .cp-resize-handle:active { background: rgba(14,165,233,0.35); }
+.cp-section { border-bottom: 1px solid var(--border); }
+.cp-section-header {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; background: transparent; border: none; cursor: pointer;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+  color: var(--text-muted); transition: color 0.15s;
+}
+.cp-section-header:hover { color: var(--text); }
+.cp-caret { font-size: 10px; opacity: 0.7; }
+.cp-section-body {
+  padding: 0 10px 14px; display: flex; flex-direction: column; gap: 10px;
+}
+/* Vistas — one button per room, with a tiny schematic of its tile layout. */
+.cp-view-list { display: flex; flex-direction: column; gap: 5px; }
+.view-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 8px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-muted); font-size: 11.5px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; text-align: left;
+}
+.view-btn:hover  { border-color: var(--accent); color: var(--accent); }
+.view-btn.active { background: rgba(14,165,233,0.15); border-color: var(--accent); color: var(--accent); }
+.view-icon { width: 26px; height: 19px; flex-shrink: 0; opacity: 0.85; }
+.view-btn-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.cp-btn-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+}
+.cp-btn-grid .tool-btn { padding: 6px 4px; font-size: 11px; }
+.cp-btn-grid .tool-btn { width: 100%; }
+.cp-subaction { font-size: 11px; color: var(--text-muted); }
+.cp-threshold { display: flex; flex-direction: column; gap: 4px; }
+.cp-threshold-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.cp-threshold .threshold-slider { width: 100%; }
+
+/* Side strip: sits outside .viewport-frame entirely (past the ruler), so it
+   doubles as a visual divider between neighboring viewports. Slice slider up
+   top, expand/close controls pinned to the bottom. */
+.viewport-side {
+  width: 30px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; padding: 8px 0;
+  background: #161b1f; border-left: 1px solid var(--border);
+}
+.viewport-side-slider {
+  flex: 1; min-height: 0; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.viewport-side-actions { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+.viewport-side-btn {
+  width: 24px; height: 24px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1; font-weight: 600;
+  color: var(--text-muted); background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border); border-radius: 5px;
+  cursor: pointer; transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.viewport-side-btn:hover  { color: var(--accent); border-color: var(--accent); background: rgba(14,165,233,0.12); }
+.viewport-side-btn:disabled { opacity: 0.35; cursor: default; }
+
+/* Vertical range input — used by LivePanoramic's "Profundidad" (depth)
+   control in the panoramic panel's side gutter. (The MPR slice slider that
+   used to share this class was replaced by the drawStrip edge controls in
+   CornerstoneViewer.jsx — this one's still live.) */
+.slice-slider {
+  cursor: pointer; accent-color: var(--accent);
+  -webkit-appearance: none; appearance: none;
+  background: var(--border); border-radius: 2px; outline: none;
+}
+.slice-slider.vertical {
+  flex: 1; width: 6px;
+  writing-mode: vertical-lr; direction: rtl; /* top = later slice, drag up to advance */
+}
+.slice-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  background: var(--accent); cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.slice-slider:not(.vertical)::-webkit-slider-thumb { width: 26px; height: 16px; border-radius: 5px; }
+.slice-slider.vertical::-webkit-slider-thumb { width: 16px; height: 26px; border-radius: 5px; }
+.slice-slider::-moz-range-thumb {
+  background: var(--accent); cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.slice-slider:not(.vertical)::-moz-range-thumb { width: 26px; height: 16px; border-radius: 5px; }
+.slice-slider.vertical::-moz-range-thumb { width: 16px; height: 26px; border-radius: 5px; }
+
+/* Chips to bring back a closed panel, bottom-left of the viewer stage. */
+.closed-panels-tray {
+  position: absolute; bottom: 10px; left: 10px; z-index: 20;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.closed-panel-chip {
+  padding: 5px 10px; font-size: 11px; font-weight: 600;
+  background: rgba(20,20,20,0.85); border: 1px solid var(--border); border-radius: 20px;
+  color: var(--text-muted); cursor: pointer; backdrop-filter: blur(2px);
+  transition: color 0.15s, border-color 0.15s;
+}
+.closed-panel-chip:hover { color: var(--accent); border-color: var(--accent); }
+
+.slice-counter-vert {
+  font-size: 9px; color: var(--text-muted);
+  white-space: nowrap; flex-shrink: 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.viewer-loading {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.85); z-index: 20; gap: 16px;
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.viewer-loading p { font-size: 13px; color: var(--text-muted); }
+.progress-bar-wrap { width: 200px; height: 3px; background: var(--border); border-radius: 2px; }
+.progress-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
+      scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
+      scale(0.8);
+  }
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+
+  & > div {
+    flex: 1 1 0;
+    padding: 32px;
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+    }
+  }
+
+  .icon {
+    margin-bottom: 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+
+  .logo {
+    height: 18px;
+  }
+
+  a {
+    color: var(--text-h);
+    font-size: 16px;
+    border-radius: 6px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
+    .button-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+  @media (max-width: 1024px) {
+    height: 48px;
+  }
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    border: 5px solid transparent;
+  }
+
+  &::before {
+    left: 0;
+    border-left-color: var(--border);
+  }
+  &::after {
+    right: 0;
+    border-right-color: var(--border);
+  }
+}

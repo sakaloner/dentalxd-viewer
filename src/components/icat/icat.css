@@ -1,0 +1,189 @@
+/* ── i-CAT Vision skin ────────────────────────────────────────────────────
+   Scoped under `.viewer-page.icat-skin`. Re-themes the existing viewer to look
+   and navigate like i-CAT Vision (the free CBCT viewer the referring clinician
+   already knows): pure-black windows, a thin per-window title bar, a classic
+   top menu bar (Archivo / Herramientas / Pantalla / Ayuda), and a Windows-style
+   right-click context menu. Nothing here touches the Cornerstone imaging code —
+   it only restyles chrome and adds navigation. See docs/ICAT_CLONE.md.
+
+   IP note: inspired by i-CAT Vision's layout/naming/interaction conventions;
+   no vendor glyphs or exact colors are copied. */
+
+.viewer-page.icat-skin {
+  /* i-CAT's palette: black windows, grey title bars, restrained blue accent. */
+  --bg: #000;
+  --surface: #101214;
+  --surface2: #1a1d20;
+  --border: #2c3033;
+  --text: #e6e6e6;
+  --text-muted: #8b9095;
+  --accent: #4aa3df;
+  --icat-titlebar: #24282c;
+  --icat-titlebar-text: #cfd4d8;
+  --icat-menu-h: 30px;
+  background: #000;
+}
+
+/* ── Top menu bar (Archivo · Herramientas · Pantalla · Ayuda) ────────────── */
+.icat-menubar {
+  height: var(--icat-menu-h); flex-shrink: 0;
+  display: flex; align-items: stretch;
+  background: linear-gradient(#2a2e32, #202427);
+  border-bottom: 1px solid #000;
+  font-size: 12px; color: var(--icat-titlebar-text);
+  user-select: none;
+}
+.icat-menu { position: relative; display: flex; align-items: center; }
+.icat-menu > button {
+  height: 100%; padding: 0 12px; background: transparent; border: none;
+  color: inherit; font-size: 12px; cursor: pointer; letter-spacing: 0.2px;
+}
+.icat-menu > button:hover, .icat-menu.open > button {
+  background: #3a4045; color: #fff;
+}
+.icat-menu-dropdown {
+  position: absolute; top: 100%; left: 0; min-width: 220px; z-index: 200;
+  background: #f3f3f3; color: #1a1a1a;
+  border: 1px solid #9aa0a6; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  padding: 3px 0;
+}
+.icat-menu-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  width: 100%; padding: 5px 22px 5px 26px; background: transparent; border: none;
+  font-size: 12.5px; color: #1a1a1a; text-align: left; cursor: pointer; position: relative;
+}
+.icat-menu-item:hover { background: #cfe4fb; }
+.icat-menu-item.checked::before {
+  content: '✓'; position: absolute; left: 9px; font-size: 11px; color: #2c6bbf;
+}
+.icat-menu-item.muted { color: #7a7f85; }
+.icat-menu-item .mi-hint { font-size: 11px; color: #8a8f95; }
+.icat-menu-item .mi-arrow { font-size: 10px; color: #6a6f75; }
+.icat-menu-sep { height: 1px; background: #d0d3d6; margin: 4px 8px; }
+.icat-menu-heading {
+  padding: 4px 14px 2px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.6px;
+  text-transform: uppercase; color: #7a7f85;
+}
+/* Submenu (Ajustar filtro ▸) flies out to the right */
+.icat-submenu { position: relative; }
+.icat-submenu-panel {
+  position: absolute; top: -4px; left: 100%; min-width: 170px;
+  background: #f3f3f3; border: 1px solid #9aa0a6; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  padding: 3px 0; display: none;
+}
+.icat-submenu:hover > .icat-submenu-panel { display: block; }
+
+/* Right side of the menu bar: patient identity + back + launch */
+.icat-menubar-spacer { flex: 1; }
+.icat-menubar-patient {
+  display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  font-size: 12px; color: var(--icat-titlebar-text); white-space: nowrap; overflow: hidden;
+}
+.icat-menubar-patient b { color: #fff; font-weight: 600; }
+.icat-menubar-patient .sep { color: #5a5f63; }
+.icat-menubar-actions { display: flex; align-items: center; gap: 6px; padding: 0 8px 0 4px; }
+.icat-back, .icat-launch {
+  display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 10px;
+  font-size: 11.5px; border-radius: 3px; text-decoration: none; cursor: pointer;
+  border: 1px solid #3a4045; background: #23272b; color: #cfd4d8;
+}
+.icat-back:hover { background: #2f3439; color: #fff; }
+.icat-launch { border-color: #2f6f9e; background: rgba(74,163,223,0.16); color: #7cc0f0; font-weight: 600; }
+.icat-launch:hover { background: #4aa3df; color: #fff; }
+
+/* ── Per-window title bars ──────────────────────────────────────────────────
+   Turn the existing small corner `.viewport-label` into an i-CAT-style centered
+   title strip across the top of every window. The image sits below it. */
+.icat-skin .viewport-panel { background: #000; border: 1px solid #000; }
+.icat-skin .viewport-frame { border: 1px solid #1c1f22; }
+.icat-skin .viewport-label {
+  top: 0; left: 0; right: 0;
+  height: 19px; line-height: 19px;
+  padding: 0; text-align: center;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.6px;
+  color: var(--icat-titlebar-text) !important;
+  background: linear-gradient(#2a2e32, #1e2226);
+  border-bottom: 1px solid #000;
+  text-transform: none; text-shadow: none;
+  z-index: 14;
+}
+/* nudge the other overlays below the title strip so nothing collides with it */
+.icat-skin .cursor-readout { top: 23px; }
+.icat-skin .viewport-orient.orient-top { top: 22px; }
+
+/* Real (SVG-kernel) Set Filter sharpen presets applied to every image canvas */
+.icat-skin .viewport-element { filter: var(--icat-filter, none); }
+
+/* ── Preview screen: Study List + Study Information left column ──────────── */
+.icat-studypanel {
+  flex-shrink: 0; width: 264px; min-width: 264px;
+  display: flex; flex-direction: column; background: #000;
+  border-right: 1px solid #000; overflow: hidden;
+}
+.icat-sp-titlebar {
+  height: 19px; line-height: 19px; text-align: center;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.6px;
+  color: var(--icat-titlebar-text);
+  background: linear-gradient(#2a2e32, #1e2226); border-bottom: 1px solid #000;
+}
+.icat-studylist { flex: 1 1 55%; min-height: 0; overflow-y: auto; }
+.icat-sl-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.icat-sl-table th {
+  position: sticky; top: 0; background: #17191c; color: #9a9fa4;
+  font-weight: 600; text-align: left; padding: 4px 8px; border-bottom: 1px solid #2c3033;
+  font-size: 10px; text-transform: none;
+}
+.icat-sl-table td { padding: 4px 8px; color: #c8ccd0; border-bottom: 1px solid #141618; white-space: nowrap; }
+.icat-sl-row { cursor: pointer; }
+.icat-sl-row:hover td { background: #1a2330; }
+.icat-sl-row.active td { background: #24507e; color: #fff; }
+.icat-sl-id { color: #7f858b; font-variant-numeric: tabular-nums; }
+
+.icat-studyinfo { flex: 1 1 45%; min-height: 0; overflow-y: auto; border-top: 1px solid #000; display: flex; flex-direction: column; }
+.icat-si-body { padding: 10px 12px; font-size: 11.5px; color: #c8ccd0; line-height: 1.55; }
+.icat-si-row { display: flex; justify-content: space-between; gap: 10px; padding: 1.5px 0; }
+.icat-si-row .k { color: #8b9095; }
+.icat-si-row .v { color: #e6e6e6; text-align: right; font-variant-numeric: tabular-nums; }
+.icat-si-acq { margin-top: 8px; padding-top: 8px; border-top: 1px solid #23272b; color: #7cc0f0; font-size: 11px; }
+
+/* ── Right-click context menu (Windows classic) ─────────────────────────── */
+.icat-ctx {
+  position: fixed; z-index: 500; min-width: 230px;
+  background: #f3f3f3; color: #1a1a1a;
+  border: 1px solid #9aa0a6; box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+  padding: 3px 0; font-size: 12.5px; user-select: none;
+}
+.icat-ctx-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  width: 100%; padding: 5px 22px 5px 26px; background: transparent; border: none;
+  color: #1a1a1a; text-align: left; cursor: pointer; position: relative;
+}
+.icat-ctx-item:hover { background: #cfe4fb; }
+.icat-ctx-item.checked::before { content: '✓'; position: absolute; left: 9px; color: #2c6bbf; }
+.icat-ctx-item.muted { color: #7a7f85; }
+.icat-ctx-item .mi-arrow { font-size: 10px; color: #6a6f75; }
+.icat-ctx-sep { height: 1px; background: #d0d3d6; margin: 4px 8px; }
+.icat-ctx-sub { position: relative; }
+.icat-ctx-sub-panel {
+  position: absolute; top: -4px; left: 100%; min-width: 160px;
+  background: #f3f3f3; border: 1px solid #9aa0a6; box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+  padding: 3px 0; display: none;
+}
+.icat-ctx-sub:hover > .icat-ctx-sub-panel { display: block; }
+
+/* Small transient toast for i-CAT-parity actions that live in the full remote app */
+.icat-toast {
+  position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
+  z-index: 600; max-width: 460px;
+  background: #1c2126; color: #e6e6e6; border: 1px solid #3a4045;
+  border-left: 3px solid #4aa3df; border-radius: 4px;
+  padding: 10px 16px; font-size: 12.5px; line-height: 1.5;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: icat-toast-in 0.15s ease-out;
+}
+@keyframes icat-toast-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+/* In skin mode the control panel becomes a black i-CAT-styled tool dock */
+.icat-skin .control-panel { background: #101214; border-left: 1px solid #000; }
+.icat-skin .cp-section-header { color: #9a9fa4; }
+.icat-skin .cp-section { border-bottom: 1px solid #1c1f22; }

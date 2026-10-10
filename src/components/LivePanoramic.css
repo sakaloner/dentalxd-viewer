@@ -1,0 +1,133 @@
+/* Live panoramic — docked across the top of the stage in both rooms that
+   show it. The cornerstone grid / cross-section panels are positioned
+   alongside/underneath it by the .viewer-main.layout-* rules in App.css,
+   all driven by the same --pano-split/--implant-pano-w/--implant-cross-w
+   custom properties (set from Viewer.jsx state, dragged via the
+   .pano-divider handles) — one shared source of truth instead of hardcoded
+   percentages duplicated across files:
+   - Panorámica room: top var(--pano-split, 52%), Axial/Coronal/3D row below.
+   - Implante room (i-CAT quadrant layout, no 3D panel):
+       top-left  Panorámica, width var(--implant-pano-w, 66.7%)
+       top-right Axial, the rest of the top row
+       both rows split at var(--pano-split, 40%)
+       bottom-left  big center cross-section, width var(--implant-cross-w, 33.3%)
+       bottom-right neighbor cross-section grid, the rest of the bottom row
+   The expand button (panoramic room only) switches to .fullscreen (inset:0). */
+.live-pano {
+  position: absolute; z-index: 30;
+  background: #000; border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: row;
+}
+.live-pano.dock-panoramic { inset: 0 0 calc(100% - var(--pano-split, 52%)) 0; }
+.live-pano.dock-implant {
+  inset: 0 calc(100% - var(--implant-pano-w, 66.7%)) calc(100% - var(--pano-split, 40%)) 0;
+  border-right: 1px solid var(--border);
+}
+.live-pano.fullscreen { inset: 0; border: none; }
+
+/* Implant room bottom-left: the big center cross-section (the implant site). */
+.cross-large-panel {
+  position: absolute;
+  inset: var(--pano-split, 40%) calc(100% - var(--implant-cross-w, 33.3%)) 0 0;
+  z-index: 30;
+  background: #000; border-right: 1px solid var(--border); border-top: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+/* Implant room bottom-right: uniform grid of neighboring cross-sections
+   (columns set inline from CROSS_GRID_COLS in LivePanoramic.jsx), wrapping
+   in reading order same as i-CAT's own tile strip. */
+.cross-strip {
+  position: absolute;
+  inset: var(--pano-split, 40%) 0 0 var(--implant-cross-w, 33.3%);
+  z-index: 30;
+  display: grid; grid-template-rows: repeat(2, 1fr); gap: 2px; background: #000;
+  border-top: 1px solid var(--border);
+}
+.cross-tile {
+  position: relative; min-width: 0; min-height: 0;
+  background: #111; display: flex; flex-direction: column; cursor: pointer;
+}
+.cross-tile:hover:not(.center) { background: #181c21; }
+.cross-tile.center {
+  cursor: default;
+  outline: 1px solid rgba(53, 208, 255, 0.55); outline-offset: -1px;
+}
+.cross-tile-label {
+  position: absolute; top: 4px; left: 8px; z-index: 2;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+  color: rgba(53, 208, 255, 0.9); text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  pointer-events: none;
+}
+.cross-canvas-wrap {
+  position: relative; flex: 1; min-height: 0; min-width: 0; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; padding: 4px;
+}
+.cross-large-panel .cross-canvas-wrap { padding: 26px 12px 4px; }
+.cross-canvas { display: block; /* width/height set in JS (fitCrossCanvas) to the true mm aspect */ }
+.cross-controls {
+  display: flex; align-items: center; gap: 14px;
+  padding: 6px 10px 8px; width: 100%;
+  font-size: 11px; color: var(--text-muted);
+}
+.cross-controls label { display: flex; flex-direction: column; gap: 2px; flex: 1; max-width: 220px; }
+.cross-controls input[type='range'] { width: 100%; }
+
+/* Cut-position lines over the pano — sized/positioned in JS (drawPanoMarkers),
+   same overlay pattern as the ruler. */
+.live-pano-markers {
+  position: absolute; top: 0; left: 0;
+  pointer-events: none; z-index: 3;
+}
+.live-pano-main {
+  flex: 1; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.live-pano-canvas-wrap {
+  position: relative; flex: 1; min-height: 0; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 26px 12px 4px; overflow: hidden;
+}
+.live-pano-canvas-box { position: relative; transition: transform 0.1s ease-out; }
+.live-pano-canvas {
+  display: block; /* width/height set in JS (fitCanvas) to the true mm aspect */
+  image-rendering: auto;
+}
+/* z-crop drag handles (drawCropHandles) — purely a visual overlay; the
+   actual pointer handling (hit-testing, drag) lives on .live-pano-canvas
+   itself so it can fall through to the implant click-to-navigate handler. */
+.live-pano-crop-handles {
+  position: absolute; top: 0; left: 0;
+  pointer-events: none; z-index: 3;
+}
+/* i-CAT ladder controls (drawLadders) — same "purely visual" pattern as the
+   crop handles: hit-testing/dragging lives on .live-pano-canvas itself
+   (ladderHit/startLadderDrag), so this stays pointer-events: none. */
+.live-pano-ladders {
+  position: absolute; top: 0; left: 0;
+  pointer-events: none; z-index: 4;
+}
+.live-pano-status {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  color: var(--text-muted); font-size: 13px;
+}
+.live-pano-controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
+  padding: 6px 10px 8px; width: 100%;
+  font-size: 11px; color: var(--text-muted);
+}
+.live-pano-controls label {
+  display: flex; flex-direction: column; gap: 2px; min-width: 110px;
+}
+.live-pano-controls input[type='range'] { width: 110px; }
+.live-pano-hint { flex-basis: 100%; font-size: 10px; opacity: 0.75; }
+
+/* Arch spline overlay portaled into the Axial viewport element. Pointer
+   events stay off — grabs are intercepted in JS (capture phase) only when
+   the cursor is on a control point, so crosshairs etc. keep working. */
+.arch-overlay-canvas {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 9;
+}
